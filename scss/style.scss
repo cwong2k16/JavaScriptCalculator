@@ -1,3 +1,33 @@
-background{
-  
+$bts: 12px; // button font size for all buttons
+
+@mixin bg($color){
+    background-color: $color;
+}
+
+@mixin curve($radius){
+    border-radius: $radius;
+}
+
+@mixin align($pos){
+    text-align: $pos;
+}
+
+body{
+    @include bg(black);
+}
+
+.calculator{
+    @include bg(grey);
+    @include curve(50px);  
+    @include align(center);
+    left: 50%;
+    top: 50%;
+    position: fixed;
+}
+
+@mixin general-button-style($height, $bgcolor, $color){
+    font-size: $bts;
+    height: $height;
+    background-color: $bgcolor;
+    color: $color;
 }

@@ -1,3 +1,12 @@
-background{
-  
-}
+body {
+  background-color: black; }
+
+.calculator {
+  background-color: grey;
+  border-radius: 50px;
+  text-align: center;
+  left: 50%;
+  top: 50%;
+  position: fixed; }
+
+/*# sourceMappingURL=style.css.map */
