@@ -1,4 +1,12 @@
-$bts: 12px; // button font size for all buttons
+$bts: 8px; // button font size for all buttons
+$font: "Courier New", Courier, monospace;
+
+@mixin general-button-style($height, $bgcolor, $color){
+    font-size: $bts;
+    height: $height;
+    background-color: $bgcolor;
+    color: $color;
+}
 
 @mixin bg($color){
     background-color: $color;
@@ -12,22 +20,44 @@ $bts: 12px; // button font size for all buttons
     text-align: $pos;
 }
 
+@mixin pad($top, $right, $bottom, $left){ //top right bottom left
+    padding-top: $top;
+    padding-right: $right;
+    padding-bottom: $bottom;
+    padding-bottom: $left;
+}
+
+@mixin box-shadow($stats){
+    box-shadow: $stats;
+}
+
 body{
-    @include bg(black);
+    @include bg(lightgrey);
 }
 
 .calculator{
     @include bg(grey);
-    @include curve(50px);  
+    @include curve(5px);  
     @include align(center);
-    left: 50%;
-    top: 50%;
+    @include box-shadow(10px 10px 5px black);
+    left: 40%;
+    top: 40%;
     position: fixed;
 }
 
-@mixin general-button-style($height, $bgcolor, $color){
-    font-size: $bts;
-    height: $height;
-    background-color: $bgcolor;
-    color: $color;
+h3{
+    font-family: $font;
+    color: white;
+}
+
+.result{
+    @include pad(10px, 10px, 10px, 10px);
+}
+
+.button-padding{
+    @include pad(5px, 5px, 5px, 5px);
+}
+
+.zero{
+    width: 100%;
 }
