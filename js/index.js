@@ -1,12 +1,15 @@
 // an array of IDs associated with the calculator buttons
 var buttonIDs = ["AC", "CE", "div", "mul", "7", "8", "9", "sub", "4", "5", "6", "add", "1", "2", "3", "mod", "0", "decimal", "equal"];
 // an array of symbols associated with the calculator buttons
-var buttonSymbols = ["AC", "CE", "÷", "*", "7", "8", "9", "-", "4", "5", "6", "+", "1", "2", "3", "%", "0", ".", "="];
+var buttonSymbols = ["AC", "CE", "/", "*", "7", "8", "9", "-", "4", "5", "6", "+", "1", "2", "3", "%", "0", ".", "="];
 
-var array = []; // array of operations
+// array of operators for convenient referencing
+var operators = ["add", "div", "mod", "mul", "sub"];
+
+var array = []; // array of operations as symbols
+var array2 = [] // array of operations as IDs
 
 $(document).ready(function(){
-    
     // begin loop to generate html buttons and their IDs/properties onto the calculator UI
   for(var i = 0; i < buttonIDs.length; i++){
       if(i >= 0 && i <= 15){
@@ -50,13 +53,35 @@ $(document).ready(function(){
             for(var i = 0; i < array.length; i++){
                 string+= array[i];
             }
-            alert(eval(string));
+            $("#result").val((eval(string)));
+            $("#display").val($("#display").val() + "=" + eval(string));
+            array = [eval(string)];
+        
+        }
+        else if(operators.includes(this.id) && array.length === 0){
+            // do nothing    
+        }
+        else if((operators.includes(peek(array2))) && operators.includes(this.id) || this.id === "decimal"){
+            array.pop();
+            array2.pop();
+            
+            var index = buttonIDs.indexOf(this.id);
+            var symbol = buttonSymbols[index];
+            
+            array.push(symbol);
+            array2.push(this.id);
+            
+            $("#result").val(symbol);
+            
+            var newString = array.join("");
+            $("#display").val(newString);
         }
         else{
             var id = this.id;
             var index = buttonIDs.indexOf(id);
             var symbol = buttonSymbols[index];
             array.push(symbol);
+            array2.push(this.id);
             var val = $("#display").val();
             $("#display").val(val + symbol);
             $("#result").val(symbol);
@@ -89,4 +114,10 @@ function clearResult(){
 
 function clearArray(){
     array = [];
+}
+
+function peek(array){
+    if(array.length > 0){
+        return array[array.length - 1];
+    }
 }
