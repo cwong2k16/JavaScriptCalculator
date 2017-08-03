@@ -5,9 +5,12 @@ var buttonSymbols = ["AC", "CE", "/", "*", "7", "8", "9", "-", "4", "5", "6", "+
 
 // array of operators for convenient referencing
 var operators = ["add", "div", "mod", "mul", "sub"];
+var numbers = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"];
 
 var array = []; // array of operations as symbols
 var array2 = [] // array of operations as IDs
+
+var currToken = ""; // useful for decimal edge-casing
 
 $(document).ready(function(){
     // begin loop to generate html buttons and their IDs/properties onto the calculator UI
@@ -40,28 +43,36 @@ $(document).ready(function(){
     
     // eventhandling stuff
     $("button").click(function(){
+        var id = this.id;
+        var index = buttonIDs.indexOf(id);
+        var symbol = buttonSymbols[index];
         if(this.id === "AC"){
             clearResult();
             clearArray();
             $("#display").val("0");
+            currToken = "";
         }
         else if(this.id === "CE"){
             clearResult();
+            currToken = "";
         }
         else if(this.id === "equal"){
+            currToken = "";
             var string = "";
             for(var i = 0; i < array.length; i++){
                 string+= array[i];
             }
-            $("#result").val((eval(string)));
-            $("#display").val($("#display").val() + "=" + eval(string));
+            $("#result").val(eval(string));
+            $("#display").val(eval(string));
             array = [eval(string)];
+            currToken = eval(string);
         
         }
         else if(operators.includes(this.id) && array.length === 0){
             // do nothing    
         }
-        else if((operators.includes(peek(array2))) && operators.includes(this.id) || this.id === "decimal"){
+        else if((operators.includes(peek(array2))) && (operators.includes(this.id))){
+            currToken = "";
             array.pop();
             array2.pop();
             
@@ -76,15 +87,38 @@ $(document).ready(function(){
             var newString = array.join("");
             $("#display").val(newString);
         }
+        else if(numbers.includes(this.id)){
+            if(Number.isFinite(parseFloat(currToken)) || peek(array) === "." || (array.length === 0) ||
+              operators.includes(peek(array2))){
+                currToken += this.id;
+                array.push(this.id);    // symbol and ID are identical for numbers; only different for operators/decimal
+                array2.push(this.id);
+                var val = $("#display").val();
+                $("#display").val(val + this.id);
+                $("#result").val(this.id);
+            }
+            
+        }
+        else if(this.id === "decimal"){
+            if((Number.isFinite(parseFloat(currToken)) || (""+currToken === "")) && !(currToken+"").includes(".")){
+                alert("hahah");
+                currToken+=symbol;
+                array.push(symbol);
+                array2.push(this.id);
+                var val = $("#display").val();
+                $("#display").val(val + symbol);
+                $("#result").val(symbol);
+            }
+        }
         else{
-            var id = this.id;
-            var index = buttonIDs.indexOf(id);
-            var symbol = buttonSymbols[index];
-            array.push(symbol);
-            array2.push(this.id);
-            var val = $("#display").val();
-            $("#display").val(val + symbol);
-            $("#result").val(symbol);
+            if(operators.includes(this.id) && peek(array) !== "."){
+                currToken = "";
+                array.push(symbol);
+                array2.push(this.id);
+                var val = $("#display").val();
+                $("#display").val(val + symbol);
+                $("#result").val(symbol);
+            }
         }
     });
 });
