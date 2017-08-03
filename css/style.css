@@ -14,6 +14,9 @@ h3 {
   font-family: "Courier New", Courier, monospace;
   color: white; }
 
+.button {
+  box-shadow: 3px 3px 2px black; }
+
 .result {
   padding-top: 10px;
   padding-right: 10px;

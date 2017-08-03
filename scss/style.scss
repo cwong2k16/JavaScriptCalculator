@@ -50,6 +50,10 @@ h3{
     color: white;
 }
 
+.button{ 
+    @include box-shadow(3px 3px 2px black);
+}
+
 .result{
     @include pad(10px, 10px, 10px, 10px);
 }

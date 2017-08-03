@@ -29,14 +29,14 @@ $(document).ready(function(){
           else{
             injection = "#injection4";
           }
-          $(injection).append("<div class='col-md-3'><button id = " + buttonIDs[i] +  " class = 'btn'>" + buttonSymbols[i] + "</button></div>");
+          $(injection).append("<div class='col-md-3'><button id = " + buttonIDs[i] +  " class = 'btn button'>" + buttonSymbols[i] + "</button></div>");
       }
       else{
           if(i === 16){
-            $("#injection5").append("<div class='col-md-6'><button id = '0' class = 'btn zero'>0</button></div>");
+            $("#injection5").append("<div class='col-md-6'><button id = '0' class = 'btn zero button'>0</button></div>");
           }
           else{
-            $("#injection5").append("<div class='col-md-3'><button id = " + buttonIDs[i] +  " class = 'btn'>" + buttonSymbols[i] + "</button></div>");
+            $("#injection5").append("<div class='col-md-3'><button id = " + buttonIDs[i] +  " class = 'btn button'>" + buttonSymbols[i] + "</button></div>");
           }
       }
   } // end of generation
@@ -113,7 +113,6 @@ $(document).ready(function(){
         }
         else if(this.id === "decimal"){
             if((Number.isFinite(parseFloat(currToken)) || (""+currToken === "")) && !(currToken+"").includes(".")){
-                alert("hahah");
                 currToken+=symbol;
                 array.push(symbol);
                 array2.push(this.id);
