@@ -54,6 +54,13 @@ $(document).ready(function(){
         }
         else if(this.id === "CE"){
             clearResult();
+            array.pop();
+            array2.pop();
+            var newString = "";
+            for(var i = 0; i < array.length; i++){
+                newString += array[i];
+            }
+            $("#display").val(newString);
             currToken = "";
         }
         else if(this.id === "equal"){
@@ -94,7 +101,12 @@ $(document).ready(function(){
                 array.push(this.id);    // symbol and ID are identical for numbers; only different for operators/decimal
                 array2.push(this.id);
                 var val = $("#display").val();
-                $("#display").val(val + this.id);
+                if(array.length === 1){
+                    $("#display").val(this.id);
+                }
+                else{
+                    $("#display").val(val + this.id);
+                }
                 $("#result").val(this.id);
             }
             
